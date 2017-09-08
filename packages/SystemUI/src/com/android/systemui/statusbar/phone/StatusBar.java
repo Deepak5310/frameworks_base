@@ -1971,22 +1971,35 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_BLACKLIST_VALUES),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_ROWS_PORTRAIT),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_ROWS_LANDSCAPE),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_COLUMNS_PORTRAIT),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_COLUMNS_LANDSCAPE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-            /*if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.XXX))) {
-                doXXX();
-            }*/
+            if (uri.equals(Settings.System.getUriFor(Settings.System.QS_ROWS_PORTRAIT)) ||
+                    uri.equals(Settings.System.getUriFor(Settings.System.QS_ROWS_LANDSCAPE)) ||
+                    uri.equals(Settings.System.getUriFor(Settings.System.QS_COLUMNS_PORTRAIT)) ||
+                    uri.equals(Settings.System.getUriFor(Settings.System.QS_COLUMNS_LANDSCAPE))) {
+                setQsRowsColumns();
+            }
         }
 
         public void update() {
             setStatusDoubleTapToSleep();
             setHeadsUpStoplist();
-            setHeadsUpBlacklist();
+            setQsRowsColumns();
         }
-    }
 
     private void setStatusDoubleTapToSleep() {
         if (mNotificationShadeWindowViewController != null) {
@@ -2003,6 +2016,12 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void setHeadsUpBlacklist() {
         if (mNotificationInterruptStateProvider != null) {
             mNotificationInterruptStateProvider.setHeadsUpBlacklist();
+        }
+    }
+
+    private void setQsRowsColumns() {
+        if (mQSPanel != null) {
+            mQSPanel.updateResources();
         }
     }
 
