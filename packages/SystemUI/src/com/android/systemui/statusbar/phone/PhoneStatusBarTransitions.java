@@ -22,6 +22,7 @@ import android.animation.ObjectAnimator;
 import android.content.res.Resources;
 import android.view.View;
 
+import com.android.internal.util.lighthouse.LighthouseUtils;
 import com.android.systemui.R;
 
 public final class PhoneStatusBarTransitions extends BarTransitions {
@@ -45,8 +46,10 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
         mStatusIcons = statusBarView.findViewById(R.id.statusIcons);
         mBattery = statusBarView.findViewById(R.id.battery);
         mNetworkTraffic = statusBarView.findViewById(R.id.networkTraffic);
+        mNetworkTraffic.setVisibility(
+                LighthouseUtils.hasNotch(statusBarView.getContext()) ? View.GONE : View.VISIBLE);
         applyModeBackground(-1, getMode(), false /*animate*/);
-        applyMode(getMode(), false /*animate*/);
+        applyMode(getMode(), false /*animate*/);\\\\
     }
 
     public ObjectAnimator animateTransitionTo(View v, float toAlpha) {
