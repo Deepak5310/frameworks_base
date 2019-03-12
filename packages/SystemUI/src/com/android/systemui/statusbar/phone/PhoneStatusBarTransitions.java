@@ -49,7 +49,7 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
         mNetworkTraffic.setVisibility(
                 LighthouseUtils.hasNotch(statusBarView.getContext()) ? View.GONE : View.VISIBLE);
         applyModeBackground(-1, getMode(), false /*animate*/);
-        applyMode(getMode(), false /*animate*/);\\\\
+        applyMode(getMode(), false /*animate*/);
     }
 
     public ObjectAnimator animateTransitionTo(View v, float toAlpha) {
