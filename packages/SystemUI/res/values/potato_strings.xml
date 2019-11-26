@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--  Copyright (C) 2020 POSP
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Heads Up QS Tile -->
+    <string name="quick_settings_heads_up_label">Peek notifications</string>
+    <string name="accessibility_quick_settings_heads_up_off">Peek notifications disabled.</string>
+    <string name="accessibility_quick_settings_heads_up_on">Peek notifications allowed.</string>
+    <string name="accessibility_quick_settings_heads_up_changed_off">Peek notifications turned off.</string>
+    <string name="accessibility_quick_settings_heads_up_changed_on">Peek notifications turned on.</string>
+
+    <!-- System SB icons -->
+    <string name="statusbar_items_title">Statusbar icons</string>
+
+    <!-- NavBar tuner tweaks -->
+    <string name="lockscreen_default">Default</string>
+    <string name="lockscreen_hidden">None</string>
+
+    <!-- Navbar editor -->
+    <string name="preview">Preview</string>
+    <string name="keycode">Keycode</string>
+    <string name="no_home_title">No home button found</string>
+    <string name="no_home_message">A home button is required to be able to navigate this device. Please add a home button before saving.</string>
+    <string name="clipboard_description">The Clipboard allows items to be dragged directly to the clipboard. Items can also be dragged directly out of the clipboard when present.</string>
+    <string name="keycode_description">Keycode buttons allow keyboard keys to be added to the Navigation Bar. When pressed they emulate the selected keyboard key. First the key must be selected for the button, followed by an image to be shown on the button.</string>
+    <string name="start">Start</string>
+    <string name="center">Center</string>
+    <string name="end">End</string>
+    <string name="space">Spacer</string>
+    <string name="menu_ime">Menu / Keyboard Switcher</string>
+    <string name="select_button">Select button to add</string>
+    <string name="add_button">Add button</string>
+    <string name="save">Save</string>
+    <string name="reset">Reset</string>
+    <string name="select_keycode">Select Keyboard Button</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="navbar_editor_title">Editor</string>
+    <string name="navbar_editor_summary">Configure navigaton bar</string>
+
+    <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
+    <string name="custom_hint">Swipe from icon to launch</string>
+
+    <!-- Power Menu -->
+    <string name="global_action_restart_advanced">Advanced</string>
+    <string name="global_action_restart_recovery">Recovery</string>
+    <string name="global_action_restart_bootloader">Bootloader</string>
+    <string name="global_action_restart_ui">SystemUI</string>
+
+    <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
+    <string name="keyguard_indication_dash_charging_time" formatted="false"><xliff:g id="percentage">%2$s</xliff:g> • Dash Charging (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g> until full)</string>
+    <string name="keyguard_plugged_in_dash_charging">Dash Charging</string>
+
+    <!-- Caffeine QS tile -->
+    <string name="quick_settings_caffeine_label">Caffeine</string>
+    <string name="accessibility_quick_settings_caffeine_off">Caffeine off.</string>
+    <string name="accessibility_quick_settings_caffeine_on">Caffeine on.</string>
+
+    <!-- DataSwitch Tile -->
+    <string name="qs_data_switch_label">Switch data card</string>
+    <string name="qs_data_switch_toast_0">Currently no SIM card is inserted</string>
+    <string name="qs_data_switch_toast_1">Currently only one SIM card is inserted</string>
+    <string name="qs_data_switch_changed_1">Using SIM 1 for Mobile data</string>
+    <string name="qs_data_switch_changed_2">Using SIM 2 for Mobile data</string>
+
+</resources>
