@@ -121,6 +121,7 @@ import android.util.Slog;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
+import com.android.internal.R;
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.compat.IPlatformCompat;
@@ -1448,7 +1449,9 @@ public class PermissionManagerService extends IPermissionManager.Stub {
             throw new IllegalArgumentException("Unknown package: " + packageName);
         }
 
-        bp.enforceDeclaredUsedAndRuntimeOrDevelopment(pkg, ps);
+        if (!isCustomPermission(packageName)) {
+            bp.enforceDeclaredUsedAndRuntimeOrDevelopment(pkg, ps);
+        }
 
         // If a permission review is required for legacy apps we represent
         // their permissions as always granted runtime ones since we need
@@ -1611,7 +1614,9 @@ public class PermissionManagerService extends IPermissionManager.Stub {
             throw new IllegalArgumentException("Unknown permission: " + permName);
         }
 
-        bp.enforceDeclaredUsedAndRuntimeOrDevelopment(pkg, ps);
+        if (!isCustomPermission(packageName)) {
+            bp.enforceDeclaredUsedAndRuntimeOrDevelopment(pkg, ps);
+        }
 
         // If a permission review is required for legacy apps we represent
         // their permissions as always granted runtime ones since we need
@@ -3881,6 +3886,17 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                 }
             }
         }
+    }
+
+    private boolean isCustomPermission(String packageName) {
+        String[] apps = mContext.getResources().getStringArray(
+                R.array.config_customPermissionsList);
+        for(String app : apps) {
+            if (packageName.equals(app)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setWhitelistedRestrictedPermissionsForUsers(@NonNull AndroidPackage pkg,
