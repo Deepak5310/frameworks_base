@@ -33,4 +33,7 @@
     <!-- Daily data usage -->
     <dimen name="data_usage_padding_start">4dp</dimen>
 
+     <!-- Recognizing fingerprint animation -->
+    <dimen name="fod_animation_size">280dp</dimen>
+    
 </resources>
