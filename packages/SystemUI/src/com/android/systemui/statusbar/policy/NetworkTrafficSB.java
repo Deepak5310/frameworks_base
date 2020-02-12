@@ -23,6 +23,8 @@ public class NetworkTrafficSB extends NetworkTraffic implements DarkReceiver, St
     private int mVisibleState = -1;
     private boolean mTrafficVisible = false;
     private boolean mSystemIconVisible = true;
+    private boolean mStatusbarExpanded;
+    private boolean mKeyguardShowing;
 
     /*
      *  @hide
@@ -124,7 +126,9 @@ public class NetworkTrafficSB extends NetworkTraffic implements DarkReceiver, St
 
     @Override
     protected void makeVisible() {
-        setVisibility(mSystemIconVisible ? View.VISIBLE : View.GONE);
+        setVisibility(
+                !mStatusbarExpanded && mSystemIconVisible && !mKeyguardShowing ? View.VISIBLE
+                : View.GONE);
     }
 
     @Override
@@ -136,5 +140,31 @@ public class NetworkTrafficSB extends NetworkTraffic implements DarkReceiver, St
 
     @Override
     public void setDecorColor(int color) {
+    }
+
+    public void onPanelExpanded(boolean isExpanded) {
+        mStatusbarExpanded = isExpanded;
+        if (isExpanded) {
+          setVisibility(View.GONE);
+        }
+        maybeRestoreVisibility();
+    }
+
+    public void setKeyguardShowing(boolean showing) {
+        mKeyguardShowing = showing;
+        if (showing) {
+          setVisibility(View.GONE);
+        }
+        maybeRestoreVisibility();
+    }
+
+    private void maybeRestoreVisibility() {
+        if (mIsEnabled && !mStatusbarExpanded && !mKeyguardShowing && mSystemIconVisible
+           && restoreViewQuickly()) {
+          setVisibility(View.VISIBLE);
+          // then let the traffic handler do its checks
+          update();
+        }
+  
     }
 }
