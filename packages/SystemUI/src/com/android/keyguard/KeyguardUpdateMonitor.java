@@ -1704,6 +1704,9 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                     case MSG_KEYGUARD_GOING_AWAY:
                         handleKeyguardGoingAway((boolean) msg.obj);
                         break;
+                    case MSG_POCKET_STATE_CHANGED:
+                        updateBiometricListeningState();
+                        break;
                     default:
                         super.handleMessage(msg);
                         break;
@@ -2008,7 +2011,7 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                 && !mSwitchingUser && !isFaceDisabled(user) && becauseCannotSkipBouncer
                 && !mKeyguardGoingAway && mFaceSettingEnabledForUser.get(user) && !mLockIconPressed
                 && strongAuthAllowsScanning && mIsPrimaryUser
-                && !mSecureCameraLaunched;
+                && !mSecureCameraLaunched && !mIsDeviceInPocket;
 
         if (shouldListen && mFaceAuthOnlyOnSecurityView && !mBouncerFullyShown){
             shouldListen = false;
