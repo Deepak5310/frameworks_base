@@ -5040,6 +5040,20 @@ public final class Settings {
                 "status_bar_ticker_animation_mode";
 
         /**
+         * Whether to pulse ambient on new music tracks
+         *
+         * @hide
+         */
+        public static final String PULSE_ON_NEW_TRACKS = "pulse_on_new_tracks";
+
+        /**
+         * IMPORTANT: If you add a new public settings you also have to add it to
+         * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
+         * it to PRIVATE_SETTINGS below. Also add a validator that can validate
+         * the setting value. See an example above.
+         */
+
+        /**
          * Status bar ticker duration in milliseconds.
          * @hide
          */
