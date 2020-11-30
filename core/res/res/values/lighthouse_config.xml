@@ -41,4 +41,7 @@
     <!-- Whether device has an alert slider. -->
     <bool name="config_hasAlertSlider">false</bool>
 
+    <!-- Default fod pressed color -->
+    <integer name="config_fod_pressed_color">1</integer>
+
 </resources>
