@@ -770,6 +770,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             DismissCallbackRegistry dismissCallbackRegistry,
             Lazy<NotificationShadeDepthController> notificationShadeDepthControllerLazy,
             StatusBarTouchableRegionManager statusBarTouchableRegionManager,
+            TaskHelper taskHelper,
             FODCircleViewImpl fodCircleViewImpl) {
         super(context);
         mNotificationsController = notificationsController;
@@ -847,7 +848,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mUserInfoControllerImpl = userInfoControllerImpl;
         mIconPolicy = phoneStatusBarPolicy;
         mDismissCallbackRegistry = dismissCallbackRegistry;
-        mFODCircleViewImpl = fodCircleViewImpl;
+        mTaskHelper = taskHelper;
 
         mBubbleExpandListener =
                 (isExpanding, key) -> {

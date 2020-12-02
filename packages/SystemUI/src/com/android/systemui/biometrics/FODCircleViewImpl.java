@@ -45,6 +45,8 @@ public class FODCircleViewImpl extends SystemUI implements CommandQueue.Callback
 
     private boolean mIsFODVisible;
 
+    private boolean mIsFODVisible;
+
     @Inject
     public FODCircleViewImpl(Context context, CommandQueue commandQueue) {
         super(context);
@@ -81,6 +83,12 @@ public class FODCircleViewImpl extends SystemUI implements CommandQueue.Callback
                     cb.onFODStatusChange(true);
                 }
             }
+            for (int i = 0; i < mCallbacks.size(); i++) {
+                FODCircleViewImplCallback cb = mCallbacks.get(i).get();
+                if (cb != null) {
+                    cb.onFODStatusChange(true);
+                }
+            }
             mIsFODVisible = true;
             mFodCircleView.show();
         }
@@ -95,7 +103,41 @@ public class FODCircleViewImpl extends SystemUI implements CommandQueue.Callback
                     cb.onFODStatusChange(true);
                 }
             }
-            mIsFODVisible = true;
-            mFodCircleView.show();
+            for (int i = 0; i < mCallbacks.size(); i++) {
+                FODCircleViewImplCallback cb = mCallbacks.get(i).get();
+                if (cb != null) {
+                    cb.onFODStatusChange(false);
+                }
+            }
+            mIsFODVisible = false;
+            mFodCircleView.hide();
         }
     }
+
+
+    public void registerCallback(FODCircleViewImplCallback callback) {
+        Assert.isMainThread();
+        Slog.v(TAG, "*** register callback for " + callback);
+        for (int i = 0; i < mCallbacks.size(); i++) {
+            if (mCallbacks.get(i).get() == callback) {
+                Slog.e(TAG, "Object tried to add another callback",
+                        new Exception("Called by"));
+                return;
+            }
+        }
+        mCallbacks.add(new WeakReference<>(callback));
+        removeCallback(null);
+        sendUpdates(callback);
+    }
+
+    public void removeCallback(FODCircleViewImplCallback callback) {
+        Assert.isMainThread();
+        Slog.v(TAG, "*** unregister callback for " + callback);
+        mCallbacks.removeIf(el -> el.get() == callback);
+    }
+
+    private void sendUpdates(FODCircleViewImplCallback callback) {
+        callback.onFODStart();
+        callback.onFODStatusChange(mIsFODVisible);
+    }
+}

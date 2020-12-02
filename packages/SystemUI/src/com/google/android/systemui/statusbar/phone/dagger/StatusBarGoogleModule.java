@@ -204,6 +204,7 @@ public interface StatusBarGoogleModule {
             Lazy<NotificationShadeDepthController> notificationShadeDepthController,
             DismissCallbackRegistry dismissCallbackRegistry,
             StatusBarTouchableRegionManager statusBarTouchableRegionManager,
+            TaskHelper taskHelper,
             FODCircleViewImpl fodCircleViewImpl) {
         return new StatusBarGoogle(
                 smartSpaceController,
@@ -285,6 +286,7 @@ public interface StatusBarGoogleModule {
                 dismissCallbackRegistry,
                 notificationShadeDepthController,
                 statusBarTouchableRegionManager,
+                taskHelper,
                 fodCircleViewImpl);
     }
 }

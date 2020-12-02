@@ -194,6 +194,7 @@ public class StatusBarGoogle extends StatusBar {
             DismissCallbackRegistry dismissCallbackRegistry,
             Lazy<NotificationShadeDepthController> notificationShadeDepthControllerLazy,
             StatusBarTouchableRegionManager statusBarTouchableRegionManager,
+            TaskHelper taskHelper,
             FODCircleViewImpl fodCircleViewImpl) {
         super(context,
                 notificationsController,
@@ -272,6 +273,7 @@ public class StatusBarGoogle extends StatusBar {
                 dismissCallbackRegistry,
                 notificationShadeDepthControllerLazy,
                 statusBarTouchableRegionManager,
+                taskHelper,
                 fodCircleViewImpl);
         mSmartSpaceController = smartSpaceController;
         mWallpaperNotifier = wallpaperNotifier;
