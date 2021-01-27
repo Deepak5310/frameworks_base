@@ -74,7 +74,6 @@ import com.android.internal.policy.IKeyguardDrawnCallback;
 import com.android.internal.policy.IKeyguardExitCallback;
 import com.android.internal.policy.IKeyguardStateCallback;
 import com.android.internal.util.LatencyTracker;
-import com.android.internal.util.lighthouse.fod.FodUtils;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardConstants;
 import com.android.keyguard.KeyguardDisplayManager;
@@ -380,7 +379,6 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
     private boolean mWakeAndUnlocking;
     private IKeyguardDrawnCallback mDrawnCallback;
     private CharSequence mCustomMessage;
-    private boolean mHasFod;
 
     private final DeviceConfig.OnPropertiesChangedListener mOnPropertiesChangedListener =
             new DeviceConfig.OnPropertiesChangedListener() {
@@ -750,7 +748,6 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
                 QuickStepContract.isGesturalMode(navigationModeController.addListener(mode -> {
                     mInGestureNavigationMode = QuickStepContract.isGesturalMode(mode);
                 }));
-        mHasFod = FodUtils.hasFodSupport(context);
     }
 
     public void userActivity() {
