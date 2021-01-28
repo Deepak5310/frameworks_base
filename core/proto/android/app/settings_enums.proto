@@ -2688,6 +2688,4 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: R QPR
     ADAPTIVE_CONNECTIVITY_CATEGORY = 1850;
-    // Panel for Bluetooth
-    PANEL_BLUETOOTH = 2001;
 }
