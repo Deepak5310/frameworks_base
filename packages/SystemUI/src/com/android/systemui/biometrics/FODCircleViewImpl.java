@@ -49,8 +49,6 @@ public class FODCircleViewImpl extends SystemUI implements CommandQueue.Callback
 
     private boolean mIsFODVisible;
 
-    private boolean mIsFODVisible;
-
     @Inject
     public FODCircleViewImpl(Context context, CommandQueue commandQueue) {
         super(context);
