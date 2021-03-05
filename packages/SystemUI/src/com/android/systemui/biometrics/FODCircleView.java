@@ -84,10 +84,11 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
     private int mColorBackground;
     private int mDreamingOffsetY;
 
+    private boolean mIsBiometricRunning;
     private boolean mIsBouncer;
+    private boolean mIsCircleShowing;
     private boolean mIsDreaming;
     private boolean mIsKeyguard;
-    private boolean mIsCircleShowing;
 
     private boolean mDozeEnabled;
     private boolean mFodGestureEnable;
@@ -180,6 +181,24 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
     private KeyguardUpdateMonitorCallback mMonitorCallback = new KeyguardUpdateMonitorCallback() {
         @Override
+        public void onBiometricAuthenticated(int userId, BiometricSourceType biometricSourceType,
+                boolean isStrongBiometric) {
+            // We assume that if biometricSourceType matches Fingerprint it will be
+            // handled here, so we hide only when other biometric types authenticate
+            if (biometricSourceType != BiometricSourceType.FINGERPRINT) {
+                hide();
+            }
+        }
+
+        @Override
+        public void onBiometricRunningStateChanged(boolean running,
+                BiometricSourceType biometricSourceType) {
+            if (biometricSourceType == BiometricSourceType.FINGERPRINT) {
+                mIsBiometricRunning = running;
+            }
+        }
+
+        @Override
         public void onDreamingStateChanged(boolean dreaming) {
             mIsDreaming = dreaming;
             updateAlpha();
@@ -238,6 +257,14 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
                 hide();
             } else {
                 hideCircle();
+            }
+        }
+
+        @Override
+        public void onStartedWakingUp() {
+            if (!mScreenTurnedOn &&
+                    mUpdateMonitor.isFingerprintDetectionRunning()) {
+                show();
             }
         }
 
@@ -530,10 +557,20 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             return;
         }
 
+        if (mIsKeyguard && mUpdateMonitor.getUserCanSkipBouncer(mUpdateMonitor.getCurrentUser()) &&
+                !mFodGestureEnable) {
+            // Ignore show calls if user can skip bouncer
+            return;
+        }
+
+        if (mIsKeyguard && !mIsBiometricRunning) {
+            return;
+        }
+
         updatePosition();
 
-        dispatchShow();
         setVisibility(View.VISIBLE);
+        dispatchShow();
     }
 
     public void hide() {
