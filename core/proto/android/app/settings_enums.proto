@@ -2695,4 +2695,7 @@ enum PageId {
     // Custom Additions
     // Panel for Bluetooth
     PANEL_BLUETOOTH = 2001;
+
+    LIGHTHOUSE = 6969;
+
 }
