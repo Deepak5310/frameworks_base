@@ -85,7 +85,6 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
     private int mColorBackground;
     private int mDreamingOffsetY;
 
-    private boolean mIsBiometricRunning;
     private boolean mIsBouncer;
     private boolean mIsCircleShowing;
     private boolean mIsDreaming;
@@ -182,24 +181,6 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
     private KeyguardUpdateMonitorCallback mMonitorCallback = new KeyguardUpdateMonitorCallback() {
         @Override
-        public void onBiometricAuthenticated(int userId, BiometricSourceType biometricSourceType,
-                boolean isStrongBiometric) {
-            // We assume that if biometricSourceType matches Fingerprint it will be
-            // handled here, so we hide only when other biometric types authenticate
-            if (biometricSourceType != BiometricSourceType.FINGERPRINT) {
-                hide();
-            }
-        }
-
-        @Override
-        public void onBiometricRunningStateChanged(boolean running,
-                BiometricSourceType biometricSourceType) {
-            if (biometricSourceType == BiometricSourceType.FINGERPRINT) {
-                mIsBiometricRunning = running;
-            }
-        }
-
-        @Override
         public void onDreamingStateChanged(boolean dreaming) {
             mIsDreaming = dreaming;
             updateAlpha();
@@ -251,7 +232,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         @Override
         public void onScreenTurnedOff() {
             mScreenTurnedOn = false;
-            if (!mFodGestureEnable ||
+            if (!mFodGestureEnable &&
                     !mHideFodCircleGoingToSleep) {
                 hide();
             } else {
@@ -566,16 +547,6 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
         if (mIsBouncer && !isPinOrPattern(mUpdateMonitor.getCurrentUser())) {
             // Ignore show calls when Keyguard password screen is being shown
-            return;
-        }
-
-        if (mIsKeyguard && mUpdateMonitor.getUserCanSkipBouncer(mUpdateMonitor.getCurrentUser()) &&
-                !mFodGestureEnable) {
-            // Ignore show calls if user can skip bouncer
-            return;
-        }
-
-        if (mIsKeyguard && !mIsBiometricRunning) {
             return;
         }
 
