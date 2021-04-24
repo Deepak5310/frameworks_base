@@ -81,12 +81,6 @@ public class FODCircleViewImpl extends SystemUI implements CommandQueue.Callback
                     cb.onFODStatusChange(true);
                 }
             }
-            for (int i = 0; i < mCallbacks.size(); i++) {
-                FODCircleViewImplCallback cb = mCallbacks.get(i).get();
-                if (cb != null) {
-                    cb.onFODStatusChange(true);
-                }
-            }
             mIsFODVisible = true;
             mFodCircleView.show();
         }
@@ -95,12 +89,6 @@ public class FODCircleViewImpl extends SystemUI implements CommandQueue.Callback
     @Override
     public void showInDisplayFingerprintView() {
         if (mFodCircleView != null) {
-            for (int i = 0; i < mCallbacks.size(); i++) {
-                FODCircleViewImplCallback cb = mCallbacks.get(i).get();
-                if (cb != null) {
-                    cb.onFODStatusChange(true);
-                }
-            }
             for (int i = 0; i < mCallbacks.size(); i++) {
                 FODCircleViewImplCallback cb = mCallbacks.get(i).get();
                 if (cb != null) {
