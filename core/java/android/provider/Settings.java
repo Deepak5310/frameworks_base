@@ -4774,6 +4774,13 @@ public final class Settings {
          */
         public static final String EGG_MODE = "egg_mode";
 
+
+        /**
+         * FOD icon animation
+         * @hide
+         */
+        public static final String FOD_ICON_ANIMATION = "fod_icon_animation";
+
         /**
          * Setting to determine whether or not to show the battery percentage in the status bar.
          *    0 - Don't show percentage
