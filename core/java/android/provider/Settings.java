@@ -4774,6 +4774,12 @@ public final class Settings {
          */
         public static final String EGG_MODE = "egg_mode";
 
+        /**
+         * FOD icon animation style
+         * @hide
+         */
+        public static final String FOD_ICON_ANIM_TYPE = "fod_icon_anim_type";
+
 
         /**
          * FOD icon animation
