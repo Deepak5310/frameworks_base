@@ -48,7 +48,7 @@ import android.view.WindowManager.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.android.internal.util.evolution.EvolutionUtils;
+import com.android.internal.util.lighthouse.LighthouseUtils;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
 import com.android.keyguard.KeyguardUpdateMonitor;
@@ -310,7 +310,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
                  FODCircleView.class.getSimpleName());
 
         mWindowManager = mContext.getSystemService(WindowManager.class);
-        mIsFodAnimationAvailable = EvolutionUtils.isPackageInstalled(context,
+        mIsFodAnimationAvailable = LighthouseUtils.isPackageInstalled(context,
                                     context.getResources().getString(
                                     com.android.internal.R.string.config_fodAnimationPackage));
         if (mIsFodAnimationAvailable) {
