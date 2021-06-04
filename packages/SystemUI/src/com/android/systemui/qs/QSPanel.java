@@ -174,7 +174,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
         setOrientation(VERTICAL);
 
-        addViewsAboveTiles();
         mMovableContentStartIndex = getChildCount();
         mRegularTileLayout = createRegularTileLayout();
 
@@ -202,6 +201,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
             initMediaHostState();
         }
+        addBrightnessView();
         addSecurityFooter();
         if (mRegularTileLayout instanceof PagedTileLayout) {
             mQsTileRevealController = new QSTileRevealController(mContext, this,
@@ -222,12 +222,13 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         mSecurityFooter = new QSSecurityFooter(this, mContext);
     }
 
-    protected void addViewsAboveTiles() {
+    protected void addBrightnessView() {
         mBrightnessView = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_dialog, this, false);
+        updateBrightnessViewParams();
         addView(mBrightnessView);
-        mBrightnessController = new BrightnessController(getContext(),
-                findViewById(R.id.brightness_slider), mBroadcastDispatcher);
+        final ToggleSliderView slider = findViewById(R.id.brightness_slider);
+        mBrightnessController = new BrightnessController(getContext(), slider, mBroadcastDispatcher);
     }
 
     protected QSTileLayout createRegularTileLayout() {
@@ -516,6 +517,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             mLastOrientation = newConfig.orientation;
             switchTileLayout();
         }
+        updateBrightnessViewParams();
     }
 
     @Override
@@ -678,6 +680,15 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
                     .findViewById(R.id.brightness_slider);
             brightnessSlider.setMirror(mirrorSlider);
             brightnessSlider.setMirrorController(mBrightnessMirrorController);
+        }
+    }
+
+    private void updateBrightnessViewParams() {
+        if (mBrightnessView != null) {
+            MarginLayoutParams lp = (MarginLayoutParams) mBrightnessView.getLayoutParams();
+            lp.height = getResources().getDimensionPixelSize(R.dimen.brightness_mirror_height);
+            mBrightnessView.setLayoutParams(lp);
+            forceLayout();
         }
     }
 
