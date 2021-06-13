@@ -139,6 +139,7 @@ import com.android.systemui.statusbar.policy.UserSwitcherController;
 import com.android.systemui.util.concurrency.FakeExecutor;
 import com.android.systemui.util.time.FakeSystemClock;
 import com.android.systemui.volume.VolumeComponent;
+import com.android.systemui.tuner.TunerService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -249,6 +250,7 @@ public class StatusBarTest extends SysuiTestCase {
     @Mock private UserInfoControllerImpl mUserInfoControllerImpl;
     @Mock private PhoneStatusBarPolicy mPhoneStatusBarPolicy;
     @Mock private Lazy<NotificationShadeDepthController> mNotificationShadeDepthControllerLazy;
+    @Mock private TunerService mTunerService;
     private ShadeController mShadeController;
     private FakeExecutor mUiBgExecutor = new FakeExecutor(new FakeSystemClock());
     private InitController mInitController = new InitController();
@@ -404,7 +406,8 @@ public class StatusBarTest extends SysuiTestCase {
                 mKeyguardIndicationController,
                 mDismissCallbackRegistry,
                 mNotificationShadeDepthControllerLazy,
-                mStatusBarTouchableRegionManager);
+                mStatusBarTouchableRegionManager,
+                mTunerService);
 
         when(mNotificationShadeWindowView.findViewById(R.id.lock_icon_container)).thenReturn(
                 mLockIconContainer);

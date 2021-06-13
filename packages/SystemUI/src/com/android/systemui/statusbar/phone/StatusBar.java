@@ -231,6 +231,7 @@ import com.android.systemui.statusbar.policy.RemoteInputQuickSettingsDisabler;
 import com.android.systemui.statusbar.policy.UserInfoControllerImpl;
 import com.android.systemui.statusbar.policy.UserSwitcherController;
 import com.android.systemui.volume.VolumeComponent;
+import com.android.systemui.tuner.TunerService;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -438,7 +439,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     private boolean mAppFullscreen;
     private boolean mAppImmersive;
-
+    private final TunerService mTunerService;
     private final DisplayMetrics mDisplayMetrics;
 
     // XXX: gesture research
@@ -737,7 +738,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             KeyguardIndicationController keyguardIndicationController,
             DismissCallbackRegistry dismissCallbackRegistry,
             Lazy<NotificationShadeDepthController> notificationShadeDepthControllerLazy,
-            StatusBarTouchableRegionManager statusBarTouchableRegionManager) {
+            StatusBarTouchableRegionManager statusBarTouchableRegionManager,
+            TunerService tunerService) {
         super(context);
         mNotificationsController = notificationsController;
         mLightBarController = lightBarController;
@@ -814,6 +816,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mUserInfoControllerImpl = userInfoControllerImpl;
         mIconPolicy = phoneStatusBarPolicy;
         mDismissCallbackRegistry = dismissCallbackRegistry;
+        mTunerService = tunerService;
 
         mBubbleExpandListener =
                 (isExpanding, key) -> {
@@ -4513,6 +4516,12 @@ public class StatusBar extends SystemUI implements DemoMode,
     public void startAssist(Bundle args) {
         mAssistManagerLazy.get().startAssist(args);
     }
+
+        @Override
+    public void onTuningChanged(String key, String newValue) {
+        // feature checks
+    }
+    
     // End Extra BaseStatusBarMethods.
 
     public NotificationGutsManager getGutsManager() {
