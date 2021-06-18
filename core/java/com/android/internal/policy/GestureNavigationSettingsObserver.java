@@ -77,6 +77,9 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
         r.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.EDGE_GESTURE_Y_DEAD_ZONE),
                 false, this, UserHandle.USER_ALL);
+        r.registerContentObserver(
+                Settings.System.getUriFor(Settings.System.EDGE_MUSIC_CONTROL),
+                false, this, UserHandle.USER_ALL);
     }
 
     public void unregister() {
@@ -125,6 +128,22 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
         final float scale = Settings.Secure.getFloatForUser(
                 mContext.getContentResolver(), side, 1.0f, UserHandle.USER_CURRENT);
         return (int) (inset * scale);
+    }
+
+    public int getEdgeMusicStatus() {
+        int mode = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.EDGE_MUSIC_CONTROL, 0,
+            UserHandle.USER_CURRENT);
+        int enabled = 0;
+        switch (mode) {
+            default:
+                enabled = 0;
+                break;
+            case 1: // Enabled
+                enabled = 1;
+                break;
+        }
+        return enabled;
     }
 
     public int getDeadZoneMode() {

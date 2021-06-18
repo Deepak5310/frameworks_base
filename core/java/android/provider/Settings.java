@@ -4974,6 +4974,13 @@ public final class Settings {
          */
         public static final String EDGE_GESTURE_Y_DEAD_ZONE = "edge_gesture_y_dead_zone";
 
+	/**
+         * 0 - disabled - stock behavior - default
+         * 1 - enabled
+         * @hide
+    */
+        public static final String EDGE_MUSIC_CONTROL = "edge_music_control";
+       
         /**
          * Whether user can swap the order of the Alert Slider.
          * * Whether user can invert the order of the Alert Slider.
