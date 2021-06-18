@@ -30,6 +30,11 @@ import android.graphics.Region;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.DisplayManager.DisplayListener;
 import android.hardware.input.InputManager;
+import android.media.session.MediaController;
+import android.media.session.MediaSessionManager;
+import android.media.session.PlaybackState;
+import android.media.session.MediaSessionLegacyHelper;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.os.RemoteException;
@@ -89,6 +94,8 @@ import java.util.concurrent.Executor;
  */
 public class EdgeBackGestureHandler extends CurrentUserTracker implements DisplayListener,
         PluginListener<NavigationEdgeBackPlugin>, ProtoTraceable<SystemUiTraceProto> {
+
+    private final MediaSessionManager mMediaSessionManager;
 
     private static final String TAG = "EdgeBackGestureHandler";
     private static final int MAX_LONG_PRESS_TIMEOUT = SystemProperties.getInt(
@@ -174,6 +181,8 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
     private float mBottomGestureHeight;
     // Displaysize divider to check the edge height where touch down is allowed
     private int mYDeadzoneDivider = 0;
+    // Check if edge music controller is enabled
+    private int mEdgeMusicEnabled = 0;
     // The slop to distinguish between horizontal and vertical motion
     private float mTouchSlop;
     // Duration after which we consider the event as longpress.
@@ -190,6 +199,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
     private boolean mLogGesture = false;
     private boolean mInRejectedExclusion = false;
     private boolean mIsOnLeftEdge;
+    private boolean mIsOnRightEdge;
 
     private boolean mIsAttached;
     private boolean mIsGesturalModeEnabled;
@@ -254,6 +264,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
     public EdgeBackGestureHandler(Context context, OverviewProxyService overviewProxyService,
             SysUiState sysUiFlagContainer, PluginManager pluginManager,
             Runnable stateChangeCallback) {
+        mMediaSessionManager = mContext.getSystemService(MediaSessionManager.class);
         super(Dependency.get(BroadcastDispatcher.class));
         mContext = context;
         mVibrator = context.getSystemService(Vibrator.class);
@@ -305,6 +316,9 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
                 !mGestureNavigationSettingsObserver.areNavigationButtonForcedVisible();
 
         mYDeadzoneDivider = mGestureNavigationSettingsObserver.getDeadZoneMode();
+
+
+        mEdgeMusicEnabled = mGestureNavigationSettingsObserver.getEdgeMusicStatus();
 
         final DisplayMetrics dm = res.getDisplayMetrics();
         final float defaultGestureHeight = res.getDimension(
@@ -600,9 +614,28 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
             }
         }
 
-        if (mYDeadzoneDivider != 0 && y < (mDisplaySize.y / mYDeadzoneDivider)) {
-            return false;
-        }
+    if (mYDeadzoneDivider != 0 && y > (mDisplaySize.y / mYDeadzoneDivider)){
+        //     if(mEdgeMusicEnabled != 0) {
+        //     if (mMediaSessionManager != null) {
+        //         final List<MediaController> sessions = mMediaSessionManager.getActiveSessionsForUser(
+        //                 null, UserHandle.USER_ALL);
+        //         for (MediaController aController : sessions) {
+        //             if (PlaybackState.STATE_PLAYING ==
+        //                     getMediaControllerPlaybackState(aController)) {
+        //                 // PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+
+        Toast.makeText(mContext, "WHY U SO GAY",Toast.LENGTH_LONG).show();
+
+    }
+
+    if (mYDeadzoneDivider != 0 && y < (mDisplaySize.y / mYDeadzoneDivider)) {
+        return false;
+    }
 
 
         // For debugging purposes
@@ -648,6 +681,17 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
         cancelEv.recycle();
     }
 
+    private int getMediaControllerPlaybackState(MediaController controller) {
+        if (controller != null) {
+            final PlaybackState playbackState = controller.getPlaybackState();
+            if (playbackState != null) {
+                return playbackState.getState();
+            }
+        }
+        MediaSessionLegacyHelper.getHelper(mContext).sendMediaButtonEvent(ev, true);
+        return PlaybackState.STATE_NONE;
+    }
+
     private void logGesture(int backType) {
         if (!mLogGesture) {
             return;
@@ -675,6 +719,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
             // Verify if this is in within the touch region and we aren't in immersive mode, and
             // either the bouncer is showing or the notification panel is hidden
             mIsOnLeftEdge = ev.getX() <= mEdgeWidthLeft + mLeftInset;
+            mIsOnRightEdge = ev.getX() <= mEdgeWidthRight + mRightInset;
             mMLResults = 0;
             mLogGesture = false;
             mInRejectedExclusion = false;
