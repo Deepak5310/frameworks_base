@@ -130,22 +130,6 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
         return (int) (inset * scale);
     }
 
-    public int getEdgeMusicStatus() {
-        int mode = Settings.System.getIntForUser(mContext.getContentResolver(),
-            Settings.System.EDGE_MUSIC_CONTROL, 0,
-            UserHandle.USER_CURRENT);
-        int enabled = 0;
-        switch (mode) {
-            default:
-                enabled = 0;
-                break;
-            case 1: // Enabled
-                enabled = 1;
-                break;
-        }
-        return enabled;
-    }
-
     public int getDeadZoneMode() {
         int mode = Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.EDGE_GESTURE_Y_DEAD_ZONE, 0,
@@ -167,4 +151,11 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
         }
         return divider;
     }
+
+    public boolean getEdgeMusicEnabled() {
+        return Settings.System.getIntForUser(
+               mContext.getContentResolver(), Settings.System.EDGE_MUSIC_CONTROL, 0,
+               UserHandle.USER_CURRENT) == 1;
+    }
+
 }

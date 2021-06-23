@@ -36,6 +36,7 @@ import android.media.session.PlaybackState;
 import android.media.session.MediaSessionLegacyHelper;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.os.AsyncTask;
+import android.os.UserHandle;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.os.SystemClock;
@@ -183,7 +184,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
     // Displaysize divider to check the edge height where touch down is allowed
     private int mYDeadzoneDivider = 0;
     // Check if edge music controller is enabled
-    private int mEdgeMusicEnabled = 0;
+    private boolean mEdgeMusicEnabled;
     // The slop to distinguish between horizontal and vertical motion
     private float mTouchSlop;
     // Duration after which we consider the event as longpress.
@@ -318,7 +319,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
         mYDeadzoneDivider = mGestureNavigationSettingsObserver.getDeadZoneMode();
 
 
-        mEdgeMusicEnabled = mGestureNavigationSettingsObserver.getEdgeMusicStatus();
+        mEdgeMusicEnabled = mGestureNavigationSettingsObserver.getEdgeMusicEnabled();
 
         final DisplayMetrics dm = res.getDisplayMetrics();
         final float defaultGestureHeight = res.getDimension(
@@ -614,30 +615,27 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
             }
         }
 
-    if (mYDeadzoneDivider != 0 && y < (mDisplaySize.y / mYDeadzoneDivider)) {
-        //     if(mEdgeMusicEnabled != 0) {
-        //     if (mMediaSessionManager != null) {
-        //         final List<MediaController> sessions = mMediaSessionManager.getActiveSessionsForUser(
-        //                 null, UserHandle.USER_ALL);
-        //         for (MediaController aController : sessions) {
-        //             if (PlaybackState.STATE_PLAYING ==
-        //                     getMediaControllerPlaybackState(aController)) {
-        //                 // PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // }
-
-        if (mIsOnLeftEdge) {
-        Toast.makeText(mContext, "On Left Edge",Toast.LENGTH_SHORT).show();
+        if (mYDeadzoneDivider != 0 && y < (mDisplaySize.y / mYDeadzoneDivider)) {
+            if (mEdgeMusicEnabled) { 
+            if (mMediaSessionManager != null) {
+                final List<MediaController> sessions = mMediaSessionManager.getActiveSessionsForUser(
+                        null, UserHandle.USER_ALL);
+                for (MediaController aController : sessions) {
+                    if (PlaybackState.STATE_PLAYING ==
+                            getMediaControllerPlaybackState(aController)) {
+                        if (mIsOnLeftEdge) {
+                            aController.getTransportControls().skipToPrevious();
+                        }
+                        else {
+                            aController.getTransportControls().skipToNext();
+                        }
+                        break;
+                    }
+                }
+            }
         }
-        else {
-        Toast.makeText(mContext, "On Right Edge",Toast.LENGTH_SHORT).show();
+            return false;
         }
-
-        return false;
-    }
 
 
         // For debugging purposes
