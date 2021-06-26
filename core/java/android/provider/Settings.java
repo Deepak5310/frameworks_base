@@ -1,8 +1,3 @@
-
-
-
-
-
 /*
  * Copyright (C) 2006 The Android Open Source Project
  *
@@ -4824,12 +4819,6 @@ public final class Settings {
         public static final String NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD = "network_traffic_autohide_threshold";
 
         /**
-          * Whether to disable showing arrows in network traffic indicators
-          * @hide
-         */
-        public static final String NETWORK_TRAFFIC_HIDEARROW = "network_traffic_hidearrow";
-
-   /**
          * Whether to display status area (date & weather information) on the cLock
          * @hide
          */
@@ -5149,6 +5138,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_MODE);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
             PRIVATE_SETTINGS.add(TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK);
+<<<<<<< HEAD
             PRIVATE_SETTINGS.add(QS_PANEL_BG_USE_NEW_TINT);
             PRIVATE_SETTINGS.add(VOLUME_BUTTON_MUSIC_CONTROL);
             PRIVATE_SETTINGS.add(VIBRATE_ON_CONNECT);
@@ -5162,6 +5152,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_STATE);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_HIDEARROW);
+=======
+>>>>>>> parent of fda4c2bf5200 (base: Hide arrows in Network Traffic indicators [1/2])
         }
 
         /**
